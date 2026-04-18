@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="My Finances">
+<title>My Finances</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f0;
+    --bg3: #eeede8;
+    --text: #1a1a1a;
+    --text2: #6b6b6b;
+    --text3: #999;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --blue: #185FA5;
+    --red: #A32D2D;
+    --green-bg: #EAF3DE;
+    --green-text: #3B6D11;
+    --amber-bg: #FAEEDA;
+    --amber-text: #854F0B;
+    --coral-bg: #FAECE7;
+    --coral-text: #993C1D;
+    --danger: #E24B4A;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --bg2: #2c2c2e;
+      --bg3: #3a3a3c;
+      --text: #f2f2f7;
+      --text2: #aeaeb2;
+      --text3: #6d6d72;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.2);
+      --blue: #5ac8fa;
+      --red: #ff6b6b;
+      --green-bg: #1a3a0a;
+      --green-text: #90c96a;
+      --amber-bg: #3a2a00;
+      --amber-text: #ffd060;
+      --coral-bg: #3a1a10;
+      --coral-text: #ff8a70;
+      --danger: #ff6b6b;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
+  .app { max-width: 430px; margin: 0 auto; background: var(--bg3); min-height: 100vh; padding-bottom: 80px; }
+  .header { background: var(--bg); padding: 16px 16px 12px; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 10; }
+  .header-row { display: flex; justify-content: space-between; align-items: flex-start; }
+  .header h1 { font-size: 20px; font-weight: 600; color: var(--text); }
+  .header .date { font-size: 13px; color: var(--text2); margin-top: 2px; }
+  .done-badge { font-size: 11px; padding: 4px 8px; border-radius: 20px; background: var(--green-bg); color: var(--green-text); font-weight: 600; display: none; }
+  .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: var(--bg); border-top: 0.5px solid var(--border); display: flex; z-index: 20; padding-bottom: env(safe-area-inset-bottom); }
+  .tab { flex: 1; padding: 10px 4px 8px; border: none; background: transparent; font-size: 10px; font-weight: 500; color: var(--text3); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .tab.active { color: var(--blue); }
+  .tab svg { width: 22px; height: 22px; }
+  .section { display: none; padding: 12px 12px 0; }
+  .section.active { display: block; }
+  .card { background: var(--bg); border-radius: var(--radius-lg); padding: 14px; margin-bottom: 10px; border: 0.5px solid var(--border); }
+  .card-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+  .card-row:last-child { border-bottom: none; }
+  .lbl { color: var(--text2); }
+  .val { font-weight: 600; color: var(--text); }
+  .val-blue { font-weight: 600; color: var(--blue); }
+  .val-red { font-weight: 600; color: var(--red); }
+  .badge { font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 600; white-space: nowrap; }
+  .b-due { background: var(--coral-bg); color: var(--coral-text); }
+  .b-soon { background: var(--amber-bg); color: var(--amber-text); }
+  .b-ok { background: var(--green-bg); color: var(--green-text); }
+  .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+  .metric { background: var(--bg); border-radius: var(--radius-md); padding: 12px; }
+  .metric .mlbl { font-size: 12px; color: var(--text2); margin-bottom: 4px; }
+  .metric .mval { font-size: 20px; font-weight: 600; color: var(--text); }
+  .sec-title { font-size: 11px; font-weight: 600; letter-spacing: .06em; color: var(--text2); margin: 14px 0 8px; text-transform: uppercase; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; background: var(--bg2); border-radius: 20px; padding: 4px 10px; font-size: 12px; margin: 3px 3px 3px 0; }
+  .prog-wrap { height: 4px; background: var(--bg3); border-radius: 4px; margin: -1px 3px 5px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 4px; background: var(--blue); }
+  .bill-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+  .bill-row:last-child { border-bottom: none; }
+  .total-bar { background: var(--bg2); border-radius: var(--radius-lg); padding: 12px 14px; display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+  .cal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .cal-item { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 10px 12px; }
+  .cal-item.urgent { border-color: var(--danger); }
+  .cal-day { font-size: 22px; font-weight: 700; color: var(--text); }
+  .cal-item.urgent .cal-day { color: var(--red); }
+  .note-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 12px 14px; margin-bottom: 10px; }
+  .note-card.overdue { border-color: var(--danger); }
+  .note-text { font-size: 14px; color: var(--text); line-height: 1.5; margin-bottom: 8px; word-break: break-word; }
+  .note-footer { display: flex; justify-content: space-between; align-items: center; }
+  .del-btn { font-size: 11px; padding: 4px 12px; color: var(--coral-text); background: var(--coral-bg); border: none; border-radius: 20px; cursor: pointer; font-weight: 600; }
+  .add-form { background: var(--bg2); border-radius: var(--radius-lg); padding: 14px; margin-bottom: 14px; }
+  .form-lbl { font-size: 12px; color: var(--text2); margin-bottom: 5px; display: block; font-weight: 500; }
+  .form-group { margin-bottom: 12px; }
+  textarea, input[type=date] { width: 100%; font-size: 14px; padding: 10px 12px; border-radius: var(--radius-md); border: 0.5px solid var(--border2); background: var(--bg); color: var(--text); font-family: inherit; }
+  textarea { resize: none; min-height: 80px; }
+  .add-btn { width: 100%; padding: 12px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: var(--radius-md); background: var(--blue); color: #fff; border: none; }
+  .empty { text-align: center; padding: 40px 0; font-size: 14px; color: var(--text2); }
+  .overdue-note-preview { background: var(--bg); border: 0.5px solid var(--danger); border-radius: var(--radius-md); padding: 10px 12px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="header-row">
+      <div>
+        <h1>My Finances</h1>
+        <div class="date" id="today-lbl"></div>
+      </div>
+      <div class="done-badge" id="done-badge"></div>
+    </div>
+  </div>
+
+  <div id="overview" class="section active"></div>
+  <div id="cards" class="section"></div>
+  <div id="calendar" class="section"></div>
+  <div id="bills" class="section"></div>
+  <div id="notes" class="section">
+    <div class="add-form">
+      <div class="form-group">
+        <label class="form-lbl">Note</label>
+        <textarea id="note-text" placeholder="Write your note here..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">Due date</label>
+        <input type="date" id="note-due">
+      </div>
+      <button class="add-btn" onclick="addNote()">Add note</button>
+    </div>
+    <div id="notes-list"></div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab active" onclick="showTab('overview')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Overview
+    </button>
+    <button class="tab" onclick="showTab('cards')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      Cards
+    </button>
+    <button class="tab" onclick="showTab('calendar')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+      Dates
+    </button>
+    <button class="tab" onclick="showTab('bills')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+      Bills
+    </button>
+    <button class="tab" onclick="showTab('notes')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Notes
+    </button>
+  </div>
+</div>
+
+<script>
+const fmt=n=>'₱'+n.toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtM=n=>'₱'+n.toLocaleString('en-PH',{minimumFractionDigits:0,maximumFractionDigits:0});
+function ord(n){const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+function fmtDate(str){if(!str)return '';const[y,m,d]=str.split('-');return new Date(y,m-1,d).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'});}
+
+const DEFAULT=[
+  {name:'BDO Platinum',statDay:7,limit:450000,cashLimit:135000,charges:[
+    {name:'iPad',amt:1124.58,rem:20,total:24},
+    {name:'Mama Loan',amt:10000,rem:null,total:null},
+    {name:'Vivo',amt:1166.58,rem:11,total:12},
+    {name:'Slimmers',amt:2500,rem:2,total:6},
+    {name:'Spotify',amt:279,rem:null,total:null}]},
+  {name:'BDO JCB',statDay:22,limit:450000,cashLimit:135000,charges:[
+    {name:'Slimmers World',amt:3960,rem:4,total:6}]},
+  {name:'BPI Rewards',statDay:9,limit:0,cashLimit:135000,charges:[
+    {name:'Slimmers',amt:3400,rem:5,total:6},
+    {name:'Ogawa',amt:2219.44,rem:16,total:36},
+    {name:'Credit to Cash',amt:10103.33,rem:9,total:36}]},
+  {name:'HSBC Visa',statDay:6,limit:337500,cashLimit:0,charges:[
+    {name:'Loan',amt:4854.18,rem:12,total:36}]},
+  {name:'HSBC Red MC',statDay:5,limit:236000,cashLimit:0,charges:[
+    {name:'World Vision',amt:1000,rem:null,total:null}]},
+  {name:'RCBC JCB',statDay:1,limit:101475,cashLimit:24800,charges:[
+    {name:'Slimmers World',amt:2616.67,rem:2,total:6},
+    {name:'Loan',amt:7630.84,rem:3,total:60}]},
+  {name:'RCBC Visa',statDay:4,limit:200000,cashLimit:100000,charges:[]},
+  {name:'Citibank Simplicity',statDay:8,limit:1052000,cashLimit:0,charges:[
+    {name:'Loan',amt:3483.91,rem:28,total:60},
+    {name:'YouTube Premium',amt:379,rem:null,total:null}]},
+  {name:'Metrobank CC',statDay:18,limit:877000,cashLimit:0,charges:[
+    {name:'CCTV',amt:179,rem:null,total:null},
+    {name:'Amazon',amt:149,rem:null,total:null},
+    {name:'iCloud',amt:599,rem:null,total:null},
+    {name:'iWant',amt:119,rem:null,total:null}]}
+];
+const OTHER=[
+  {name:'Insurance',amt:3450},
+  {name:'Parents Insurance',amt:6625},
+  {name:'St. Peter',amt:1018},
+  {name:'Globe',amt:999},
+  {name:'Digital Ocean',amt:850}
+];
+
+let cards=JSON.parse(localStorage.getItem('mf_cards')||'null')||DEFAULT.map(c=>({...c,charges:c.charges.map(ch=>({...ch}))}));
+let notes=JSON.parse(localStorage.getItem('mf_notes')||'[]');
+function saveCards(){try{localStorage.setItem('mf_cards',JSON.stringify(cards));}catch(e){}}
+function saveNotes(){try{localStorage.setItem('mf_notes',JSON.stringify(notes));}catch(e){}}
+function getLastChecked(){try{return JSON.parse(localStorage.getItem('mf_last')||'{}')}catch(e){return {};}}
+function setLastChecked(d){try{localStorage.setItem('mf_last',JSON.stringify(d));}catch(e){}}
+
+const today=new Date();
+const todayD=today.getDate();
+const todayMY=today.getFullYear()*100+today.getMonth();
+const todayISO=today.toISOString().slice(0,10);
+document.getElementById('today-lbl').textContent=today.toLocaleDateString('en-PH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+function autoCountdown(){
+  const last=getLastChecked();let changed=false;
+  cards.forEach((c,i)=>{
+    const lastMY=last[i]||0;
+    if(todayD>=c.statDay&&todayMY>lastMY){
+      c.charges.forEach(ch=>{if(ch.rem!==null&&ch.rem>0){ch.rem--;changed=true;}});
+      last[i]=todayMY;
+    }
+  });
+  if(changed){saveCards();setLastChecked(last);}else setLastChecked(last);
+}
+autoCountdown();
+
+const dim=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
+function daysUntil(d){let r=d-todayD;if(r<0)r+=dim;return r;}
+function cardTotal(c){return c.charges.filter(ch=>ch.rem===null||ch.rem>0).reduce((s,ch)=>s+ch.amt,0);}
+
+function renderAll(){renderOverview();renderCards();renderCalendar();renderBills();renderNotes();}
+
+function renderOverview(){
+  const ccTotal=cards.reduce((s,c)=>s+cardTotal(c),0);
+  const otherTotal=OTHER.reduce((s,b)=>s+b.amt,0);
+  const done=cards.reduce((s,c)=>s+c.charges.filter(ch=>ch.rem===0).length,0);
+  const soon=cards.filter(c=>c.charges.some(ch=>ch.rem!==null&&ch.rem<=3&&ch.rem>0));
+  const db=document.getElementById('done-badge');
+  if(done>0){db.textContent=done+' installment'+(done>1?'s':'')+' done';db.style.display='';}
+  else db.style.display='none';
+  const sorted=[...cards].sort((a,b)=>daysUntil(a.statDay)-daysUntil(b.statDay));
+  let html=`<div class="metric-grid">
+    <div class="metric"><div class="mlbl">CC Bills</div><div class="mval">${fmt(ccTotal)}</div></div>
+    <div class="metric"><div class="mlbl">Other Monthly</div><div class="mval">${fmt(otherTotal)}</div></div>
+    <div class="metric"><div class="mlbl">Grand Total</div><div class="mval" style="color:var(--red)">${fmt(ccTotal+otherTotal)}</div></div>
+    <div class="metric"><div class="mlbl">Active Cards</div><div class="mval">${cards.filter(c=>cardTotal(c)>0).length} / ${cards.length}</div></div>
+  </div>`;
+  if(soon.length){
+    html+=`<div class="sec-title">Finishing soon</div>`;
+    soon.forEach(c=>c.charges.filter(ch=>ch.rem!==null&&ch.rem<=3&&ch.rem>0).forEach(ch=>{
+      html+=`<div class="card" style="padding:10px 14px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:600">${c.name} — ${ch.name}</span><span class="badge b-soon">${ch.rem} left</span></div><div style="font-size:12px;color:var(--text2);margin-top:3px">${fmt(ch.amt)}/mo</div></div>`;
+    }));
+  }
+  const overdueNotes=notes.filter(n=>n.due&&n.due<todayISO);
+  if(overdueNotes.length){
+    html+=`<div class="sec-title">Overdue notes</div>`;
+    overdueNotes.forEach(n=>{
+      html+=`<div class="overdue-note-preview"><div style="font-size:13px">${n.text}</div><div style="font-size:11px;color:var(--red);margin-top:4px;font-weight:600">Due ${fmtDate(n.due)}</div></div>`;
+    });
+  }
+  html+=`<div class="sec-title">Upcoming statement dates</div>`;
+  sorted.slice(0,5).forEach(c=>{
+    const d=daysUntil(c.statDay);
+    const cls=d<=3?'b-due':d<=7?'b-soon':'b-ok';
+    const lbl=d===0?'Today':d===1?'Tomorrow':`In ${d} days`;
+    html+=`<div class="card" style="padding:10px 14px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px;font-weight:600">${c.name}</span>
+        <span class="badge ${cls}">${lbl}</span>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">Statement Date ${ord(c.statDay)} · ${fmt(cardTotal(c))}</div>
+    </div>`;
+  });
+  document.getElementById('overview').innerHTML=html;
+}
+
+function renderCards(){
+  let html='';
+  cards.forEach(c=>{
+    const d=daysUntil(c.statDay);
+    const cls=d<=3?'b-due':d<=7?'b-soon':'b-ok';
+    const lbl=d===0?'Today':d===1?'Tomorrow':`${d}d`;
+    let pills='';
+    c.charges.forEach(ch=>{
+      const done=ch.rem===0;
+      const tag=ch.rem!==null?`${ch.rem}/${ch.total}`:'';
+      pills+=`<div class="pill" style="${done?'opacity:0.4;text-decoration:line-through':''}">
+        <span style="color:var(--text2)">${ch.name}</span>
+        <span style="font-weight:600">${fmt(ch.amt)}</span>
+        ${tag?`<span style="font-size:11px;color:var(--blue);font-weight:600">${tag}</span>`:''}
+      </div>`;
+      if(ch.rem!==null&&ch.rem>0&&ch.total){
+        const pct=Math.round((ch.total-ch.rem)/ch.total*100);
+        pills+=`<div class="prog-wrap"><div class="prog-fill" style="width:${pct}%"></div></div>`;
+      }
+    });
+    html+=`<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:15px;font-weight:600">${c.name}</span>
+        <span class="badge ${cls}">Stmt ${lbl}</span>
+      </div>
+      <div class="card-row"><span class="lbl">Monthly total</span><span class="val-blue">${fmt(cardTotal(c))}</span></div>
+      <div class="card-row"><span class="lbl">Statement Date</span><span class="val">${ord(c.statDay)} of month</span></div>
+      ${c.limit>0?`<div class="card-row"><span class="lbl">Credit limit</span><span class="val">${fmtM(c.limit)}</span></div>`:''}
+      ${c.cashLimit>0?`<div class="card-row"><span class="lbl">Cash advance limit</span><span class="val">${fmtM(c.cashLimit)}</span></div>`:''}
+      ${pills?`<div style="margin-top:8px">${pills}</div>`:''}
+    </div>`;
+  });
+  document.getElementById('cards').innerHTML=html;
+}
+
+function renderCalendar(){
+  const sorted=[...cards].sort((a,b)=>a.statDay-b.statDay);
+  let html='<div class="sec-title">Statement dates by day of month</div><div class="cal-grid">';
+  sorted.forEach(c=>{
+    const days=daysUntil(c.statDay);
+    const urgent=days<=3;
+    html+=`<div class="cal-item ${urgent?'urgent':''}">
+      <div class="cal-day">${ord(c.statDay)}</div>
+      <div style="font-size:13px;font-weight:600;margin-top:2px">${c.name}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:2px">Statement Date</div>
+      ${days===0?'<div style="font-size:11px;color:var(--red);margin-top:2px;font-weight:600">Today</div>':days<=3?`<div style="font-size:11px;color:var(--red);margin-top:2px;font-weight:600">In ${days} days</div>`:''}
+    </div>`;
+  });
+  html+='</div>';
+  document.getElementById('calendar').innerHTML=html;
+}
+
+function renderBills(){
+  const ccTotal=cards.reduce((s,c)=>s+cardTotal(c),0);
+  const otherTotal=OTHER.reduce((s,b)=>s+b.amt,0);
+  let html='<div class="sec-title">CC monthly charges</div><div class="card">';
+  cards.filter(c=>cardTotal(c)>0).forEach(c=>{
+    html+=`<div class="bill-row"><span>${c.name}</span><span style="font-weight:600">${fmt(cardTotal(c))}</span></div>`;
+  });
+  html+='</div><div class="sec-title">Other monthly bills</div><div class="card">';
+  OTHER.forEach(b=>{html+=`<div class="bill-row"><span>${b.name}</span><span style="font-weight:600">${fmt(b.amt)}</span></div>`;});
+  html+=`</div><div style="margin-top:14px">
+    <div class="total-bar"><span style="color:var(--text2)">CC subtotal</span><span style="font-weight:600">${fmt(ccTotal)}</span></div>
+    <div class="total-bar"><span style="color:var(--text2)">Other subtotal</span><span style="font-weight:600">${fmt(otherTotal)}</span></div>
+    <div class="card" style="margin-top:4px"><div style="font-size:13px;color:var(--text2)">Grand total monthly</div><div style="font-size:28px;font-weight:700;margin-top:4px;color:var(--text)">${fmt(ccTotal+otherTotal)}</div></div>
+  </div>`;
+  document.getElementById('bills').innerHTML=html;
+}
+
+function renderNotes(){
+  const el=document.getElementById('notes-list');
+  if(!notes.length){el.innerHTML='<div class="empty">No notes yet. Add one above.</div>';return;}
+  const sorted=[...notes].sort((a,b)=>{
+    if(a.due&&b.due)return a.due.localeCompare(b.due);
+    if(a.due)return -1;if(b.due)return 1;
+    return b.id.localeCompare(a.id);
+  });
+  el.innerHTML=sorted.map(n=>{
+    const overdue=n.due&&n.due<todayISO;
+    return `<div class="note-card ${overdue?'overdue':''}">
+      <div class="note-text">${n.text.replace(/\n/g,'<br>')}</div>
+      <div class="note-footer">
+        <div style="font-size:11px;color:${overdue?'var(--red)':'var(--text2)'};font-weight:${overdue?'600':'400'}">
+          ${n.due?`Due: ${fmtDate(n.due)}${overdue?' · Overdue':''}` : '<span style="color:var(--text2)">No due date</span>'}
+        </div>
+        <button class="del-btn" onclick="deleteNote('${n.id}')">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addNote(){
+  const text=document.getElementById('note-text').value.trim();
+  if(!text)return;
+  const due=document.getElementById('note-due').value||null;
+  notes.push({id:Date.now().toString(),text,due});
+  saveNotes();
+  document.getElementById('note-text').value='';
+  document.getElementById('note-due').value='';
+  renderNotes();
+  renderOverview();
+}
+
+function deleteNote(id){
+  notes=notes.filter(n=>n.id!==id);
+  saveNotes();
+  renderNotes();
+  renderOverview();
+}
+
+function showTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    const ids=['overview','cards','calendar','bills','notes'];
+    t.classList.toggle('active',ids[i]===id);
+  });
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));
+}
+
+renderAll();
+</script>
+</body>
+</html>
