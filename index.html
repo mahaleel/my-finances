@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.png" type="image/png" sizes="64x64" />
+    <title>Maha Bernardino</title>
+    <meta name="title" content="Maha Bernardino" />
+    <meta name="description" content="It's my heart's desire to set-up my own website not just to share and write what I love, but also to be a source of encouragement." />
+    <meta name="keywords" content="maha bernardino, maha, bernardino, mahaleel, project manager, blog, about me" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <meta name="msvalidate.01" content="B632FC4734B2262DA369C3360CE7EFB8" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://mahabernardino.com" />
+    <meta property="og:title" content="Maha Bernardino" />
+    <meta property="og:description" content="It's my heart's desire to set-up my own website not just to share and write what I love, but also to be a source of encouragement." />
+    <meta property="og:image" content="https://mahabernardino.com/profile-picture.png" />
+    <meta property="og:image:width" content="255" />
+    <meta property="og:image:height" content="255" />
+    <meta property="profile:first_name" content="Maha" />
+    <meta property="profile:last_name" content="Bernardino" />
+    <meta property="profile:gender" content="Female" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://mahabernardino.com" />
+    <meta property="twitter:title" content="Maha Bernardino" />
+    <meta property="twitter:description" content="It's my heart's desire to set-up my own website not just to share and write what I love, but also to be a source of encouragement." />
+    <meta property="twitter:image" content="https://mahabernardino.com/profile-picture1.png" />
+    <script type="application/ld+json">
+      {"@context":"http://schema.org/","@type":"Person","name":"Maha Bernardino","jobTitle":"Project Manager","url":"https://mahabernardino.com"}
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        --brown:       #A47864;
+        --brown-dark:  #7a5548;
+        --brown-light: #c49a86;
+        --brown-pale:  #f2ebe6;
+        --cream:       #faf7f4;
+        --text:        #2c1f1a;
+        --text-mid:    #6b4f44;
+        --text-light:  #a88070;
+        --white:       #ffffff;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html, body {
+        background: var(--cream);
+        font-family: 'Outfit', sans-serif;
+        color: var(--text);
+        min-height: 100vh;
+      }
+
+      /* ===== MOBILE ===== */
+      .content { position: relative; }
+
+      .social-media-container {
+        background: var(--brown);
+      }
+
+      .social-media-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        max-width: 375px;
+        padding: 0 28px;
+        margin: 34px auto 0;
+      }
+
+      .social-media-wrapper a {
+        cursor: pointer;
+        transition: transform 0.2s, opacity 0.2s;
+        opacity: 0.85;
+      }
+      .social-media-wrapper a:hover { transform: scale(1.2); opacity: 1; }
+      .social-media-wrapper img { filter: invert(1); width: 22px; height: 22px; }
+
+      .about-me {
+        color: var(--white);
+        text-align: center;
+        padding: 0 28px 0;
+        padding-top: 230px;
+        margin-top: 210px;
+        background: var(--brown);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .about-me::before {
+        content: '';
+        position: absolute;
+        top: -80px; right: -80px;
+        width: 260px; height: 260px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.06);
+        pointer-events: none;
+      }
+
+      .about-me h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 58px;
+        font-weight: 600;
+        font-style: italic;
+        line-height: 1.05;
+        margin: 0 0 8px;
+        letter-spacing: -1px;
+      }
+
+      .about-me h3 {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 3.5px;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.6);
+        margin: 36px 0 12px;
+      }
+
+      .about-me p {
+        font-size: 17px;
+        font-weight: 300;
+        line-height: 1.85;
+        color: rgba(255,255,255,0.88);
+        margin: 0 0 8px;
+      }
+
+      .about-me p a {
+        color: var(--white);
+        text-decoration: underline;
+        text-decoration-color: rgba(255,255,255,0.35);
+        text-underline-offset: 3px;
+        white-space: nowrap;
+        transition: text-decoration-color 0.2s;
+      }
+      .about-me p a:hover { text-decoration-color: rgba(255,255,255,0.9); }
+
+      .profile-container {
+        position: absolute;
+        top: 100px;
+        right: 24px;
+        left: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 36px 28px 40px;
+        background: var(--white);
+        border-radius: 20px;
+        box-shadow: 0 16px 56px rgba(44,31,26,0.14), 0 2px 8px rgba(44,31,26,0.06);
+        overflow: hidden;
+      }
+
+      .profile-container::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--brown-light), var(--brown-dark), var(--brown-light));
+      }
+
+      .profile-img-wrap {
+        width: 148px;
+        height: 148px;
+        border-radius: 50%;
+        padding: 3px;
+        background: linear-gradient(135deg, var(--brown-light), var(--brown-dark));
+        margin-bottom: 22px;
+      }
+
+      .profile-container img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        border: 3px solid white;
+        pointer-events: none;
+      }
+
+      .profile-container p {
+        font-family: 'Cormorant Garamond', serif;
+        color: var(--text);
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1.25;
+        margin: 0;
+      }
+
+      .link-button {
+        display: block;
+        font-family: 'Outfit', sans-serif;
+        font-size: 19px;
+        font-weight: 500;
+        text-decoration: none;
+        width: 100%;
+        padding: 18px 28px;
+        margin-top: 16px;
+        border-radius: 12px;
+        border: 1.5px solid rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.12);
+        color: white;
+        transition: all 0.22s ease;
+        text-align: center;
+      }
+
+      .link-button:hover {
+        background: rgba(255,255,255,0.22);
+        border-color: rgba(255,255,255,0.6);
+        transform: translateY(-2px);
+      }
+
+      .footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgba(255,255,255,0.75);
+        font-size: 11px;
+        letter-spacing: 2.5px;
+        text-align: center;
+        padding: 32px 28px 40px;
+        text-transform: uppercase;
+        background: var(--brown);
+      }
+
+      /* ===== DESKTOP ===== */
+      @media (min-width: 800px) {
+        html, body {
+          background: var(--brown);
+          min-height: 100vh;
+        }
+
+        .content {
+          display: flex;
+          flex-direction: row-reverse;
+          min-height: 100vh;
+          position: relative;
+        }
+
+        /* RIGHT SIDE SOCIAL PANEL */
+        .social-media-container {
+          display: flex;
+          align-items: center;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          background: unset;
+          box-shadow: unset;
+          z-index: 10;
+        }
+
+        .social-media-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-around;
+          background: var(--brown-dark);
+          border-radius: 12px 0 0 12px;
+          height: 240px;
+          width: 52px;
+          padding: 20px 14px;
+          margin: 0;
+          max-width: unset;
+          gap: 0;
+        }
+
+        .social-media-wrapper img { width: 20px; height: 20px; }
+
+        /* About section */
+        .about-me {
+          flex: 1;
+          color: var(--text);
+          text-align: left;
+          padding: 56px 100px 70px 60px;
+          margin-top: unset;
+          background: var(--cream);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .about-me::before { display: none; }
+
+        /* STRETCHED HEADING — fills available width */
+        .about-me h1 {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(60px, 9vw, 130px);
+          font-weight: 600;
+          font-style: italic;
+          color: var(--text);
+          line-height: 0.95;
+          margin-bottom: 44px;
+          letter-spacing: -2px;
+          /* stretch to fill width */
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .about-me h3 {
+          color: var(--brown);
+          margin: 32px 0 12px;
+        }
+
+        .about-me p {
+          font-size: 19px;
+          color: var(--text-mid);
+          line-height: 1.85;
+          opacity: 1;
+        }
+
+        .about-me p a {
+          color: var(--brown-dark);
+          text-decoration-color: var(--brown-light);
+        }
+        .about-me p a:hover {
+          color: var(--brown);
+          text-decoration-color: var(--brown);
+        }
+
+        .my-links { display: flex; gap: 14px; margin-top: 8px; }
+
+        .link-button {
+          color: var(--white);
+          background: var(--brown);
+          border: none;
+          padding: 14px 32px;
+          margin-top: 0;
+          font-size: 17px;
+          border-radius: 50px;
+          width: auto;
+          box-shadow: 0 4px 16px rgba(164,120,100,0.3);
+        }
+
+        .link-button:hover {
+          background: var(--brown-dark);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 24px rgba(122,85,72,0.4);
+        }
+
+        .contact-btn {
+          background: transparent;
+          border: 1.5px solid var(--brown);
+          color: var(--brown-dark);
+          border-radius: 50px;
+        }
+
+        .contact-btn:hover {
+          background: var(--brown);
+          color: white;
+        }
+
+        /* Section label divider */
+        .about-me h3 {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          color: var(--brown);
+          margin: 32px 0 12px;
+        }
+        .about-me h3::after {
+          content: '';
+          flex: 1;
+          height: 1px;
+          background: linear-gradient(90deg, var(--brown-light), transparent);
+        }
+
+        /* Profile card */
+        .profile-container {
+          flex: 0 0 320px;
+          align-self: center;
+          position: relative;
+          top: unset; right: unset; left: unset;
+          margin: 60px 0 60px 48px;
+          min-width: unset;
+          max-width: unset;
+          width: 320px;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(44,31,26,0.25);
+        }
+
+        .profile-container p {
+          font-size: 32px;
+          max-width: 200px;
+        }
+
+        .profile-img-wrap { width: 160px; height: 160px; }
+
+        .footer {
+          position: static;
+          background: transparent;
+          color: var(--text-light);
+          font-size: 11px;
+          letter-spacing: 2.5px;
+          text-align: left;
+          padding: 40px 0 0 0;
+          margin-top: auto;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .about-me { padding: 56px 120px 70px 72px; }
+        .profile-container { margin-left: 64px; }
+      }
+      /* Fade-in animation */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      .about-me h1  { animation: fadeUp 0.6s ease both; }
+      .about-me h3  { animation: fadeUp 0.6s 0.1s ease both; }
+      .about-me p   { animation: fadeUp 0.6s 0.15s ease both; }
+      .my-links     { animation: fadeUp 0.6s 0.2s ease both; }
+      .profile-container { animation: fadeUp 0.6s 0.05s ease both; }
+
+      /* Pill buttons on mobile */
+      .link-button { border-radius: 50px; }
+
+    </style>
+
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+  </head>
+  <body>
+    <div class="content">
+
+      <div class="social-media-container">
+        <div class="social-media-wrapper">
+          <a href="https://www.facebook.com/mahaleelbernardino" target="_blank" onclick="logLinkEvent(this)">
+            <img src="https://img.icons8.com/material-outlined/24/000000/facebook-f.png" alt="facebook" />
+          </a>
+          <a href="https://www.instagram.com/mahabernardino" target="_blank" onclick="logLinkEvent(this)">
+            <img src="https://img.icons8.com/metro/26/000000/instagram-new.png" alt="instagram" />
+          </a>
+          <a href="https://x.com/mahabernardino" target="_blank" onclick="logLinkEvent(this)">
+            <img src="https://img.icons8.com/android/24/000000/twitter.png" alt="twitter" />
+          </a>
+          <a href="https://ph.linkedin.com/in/mahabernardino" target="_blank" onclick="logLinkEvent(this)">
+            <img src="https://img.icons8.com/android/24/000000/linkedin.png" alt="linkedin" />
+          </a>
+        </div>
+      </div>
+
+      <div class="about-me">
+        <h1>Hello there!</h1>
+
+        <h3>Who I Am</h3>
+        <p>
+          I'm Maha — a Senior Project Manager from Manila, Philippines. This site is my little corner of the internet where I share my thoughts, feelings, and the things that move me. I hope something here resonates with you too.
+        </p>
+
+        <h3>Favorites</h3>
+        <p>
+          Anime and films are my happy place. I keep track of everything I watch on
+          <a href="https://myanimelist.net/profile/meipurusyrup" target="_blank" onclick="logLinkEvent(this)">MyAnimeList</a>
+          and
+          <a href="https://letterboxd.com/mahabernardino" target="_blank" onclick="logLinkEvent(this)">Letterboxd</a>
+          — feel free to browse! I also write on my blog
+          <a href="https://blog.mahabernardino.com" target="_blank" onclick="logLinkEvent(this)">Turning Page</a>,
+          where I pour out my heart one entry at a time.
+        </p>
+
+        <div class="my-links">
+          <a href="https://myanimelist.net/profile/meipurusyrup" target="_blank" class="link-button" onclick="logLinkEvent(this)">Anime</a>
+          <a href="https://letterboxd.com/mahabernardino" target="_blank" class="link-button" onclick="logLinkEvent(this)">Films</a>
+          <a href="https://blog.mahabernardino.com" target="_blank" class="link-button" onclick="logLinkEvent(this)">Blog</a>
+          <a href="mailto:bernardinomaha@gmail.com" class="link-button contact-btn" onclick="logLinkEvent(this)">Say Hello ✉</a>
+        </div>
+        <div class="footer">© 2026 Maha Bernardino</div>
+      </div>
+
+      <div class="profile-container">
+        <div class="profile-img-wrap">
+          <img src="profile-picture.png" onclick="logClickEvent('profile-picture', this.src)" alt="Maha Bernardino" />
+        </div>
+        <p>Maha Bernardino</p>
+      </div>
+
+    </div>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: 'AIzaSyDgPajCP5s6i5mImSwUDffJQJqaBvp_Olo',
+        projectId: 'mahabernardino-1117',
+        appId: '1:602679718507:web:4c01f90f9a90a859c3f72e',
+        measurementId: 'G-SRVNBC0C1M',
+      }
+      firebase.initializeApp(firebaseConfig)
+      const analytics = firebase.analytics()
+
+      function message() {
+        window.location.href = atob('bWFpbHRvOmhlbGxvQG1haGFiZXJuYXJkaW5vLmNvbQ==')
+      }
+      function logClickEvent(elementName, data) {
+        analytics.logEvent('click_element', { elementName, data })
+      }
+      function logLinkEvent(ele) {
+        analytics.logEvent('click_link', {
+          link_text: ele.text || 'image',
+          link_url: ele.href,
+        })
+      }
+    </script>
+  </body>
+</html>
